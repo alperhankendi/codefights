@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -29,10 +31,76 @@ func main() {
 	}
 	fmt.Println(matrixElementsSum(matrix))
 	*/
-	commonCharacterCount("abca","xyzbac")
+	//commonCharacterCount("abca","xyzbac")
+	//sortByHeight([]int{-1, 150, 190, 170, -1, -1, 160, 180})
+	reverseInParentheses("foo(bar(baz))blim")
+
+
+}
+func reverseInParentheses(inputString string) string {
+	var a []int;
+	for i := 0; i < len(inputString); i++ {
+		if (inputString[i] == '(') {
+			a = append(a, i);
+		} else if (inputString[i] == ')') {
+			last := a[len(a)-1:][0];
+			a = a[:len(a)-1];
+			aux := inputString[last+1:i];
+			aux2 := "";
+			for j := len(aux) - 1; j >= 0; j-- {
+				aux2 += string(aux[j]);
+			}
+			inputString = strings.Replace(inputString, "(" + aux + ")", aux2, -1);
+			fmt.Println(inputString);
+			i -= 2;
+		}
+	}
+	return inputString;
+}
+
+func sortByHeight(a []int) []int {
+
+//	arr := make([]int,len(a))
+	arr := append(a[:0:0], a...)
+	sort.Ints(arr)
+	k:=0
+	for i:=0;i<len(a) ;i++  {
+
+		if a[i] == -1 {continue}
+
+		for {
+			if arr[k]!= -1{
+				a[i]= arr[k]
+				k++
+				break
+			}
+			k++
+		}
+	}
+	fmt.Printf("%v, %v",a,arr)
+	return a
 
 }
 
+func isLucky(n int) bool {
+
+	str :=strconv.Itoa(n)
+
+	var l = int32(0)
+
+	for i,n :=range str{
+
+		n = n - 48
+		if( i< len(str)/2){
+			l += n
+		}else {
+			l -= n
+		}
+
+	}
+
+	return l==0
+}
 
 func makeArrayConsecutive2(statues []int) int {
 
@@ -89,7 +157,6 @@ func commonCharacterCount(s1 string, s2 string) int {
 	return count
 }
 
-
 func allLongestStrings(inputArray []string) []string {
 
 	var l =0
@@ -132,7 +199,6 @@ func matrixElementsSum(matrix [][]int) int {
 
 }
 
-
 func shapeArea(n int) int {
 
 	var r int=0
@@ -142,8 +208,6 @@ func shapeArea(n int) int {
 	}
 	return  r+1
 }
-
-
 
 func adjacentElementsProduct(inputArray []int) int {
 
@@ -158,7 +222,6 @@ func adjacentElementsProduct(inputArray []int) int {
 	return r
 }
 
-
 func checkPalindrome(inputString string) bool {
 
 	var reverseStr string
@@ -170,6 +233,4 @@ func checkPalindrome(inputString string) bool {
 	return inputString ==reverseStr
 
 }
-
-
 
